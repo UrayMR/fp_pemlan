@@ -1,0 +1,5 @@
+build/**
+# Kecualikan file CSV 
+!build/**/*.csv
+
+

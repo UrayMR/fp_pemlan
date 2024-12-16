@@ -11,7 +11,9 @@ void kamarMenu()
   int choice;
   do
   {
+    printf("\n------------------\n");
     printf("\n--- Kamar Menu ---\n");
+    printf("\n------------------\n");
     printf("1. Tambah Kamar\n");
     printf("2. Tampilkan Semua Kamar\n");
     printf("3. Update Kamar\n");
@@ -63,7 +65,7 @@ void createKamar()
   Kamar kamar;
   printf("Masukkan ID Kamar: ");
   scanf("%d", &kamar.idKamar);
-  printf("Masukkan Tipe Kamar: (0: Tidak ada kamar, 1: Standard, 2: VIP)");
+  printf("Masukkan Tipe Kamar (1: Standard, 2: VIP):");
   scanf(" %d", &kamar.tipeKamar);
   printf("Masukkan Kapasitas: ");
   scanf("%d", &kamar.maxPasien);
