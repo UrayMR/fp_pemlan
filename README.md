@@ -1,6 +1,6 @@
 # 🌐 **Final Project Pemrograman Lanjut (C) - CMake dengan MinGW**
 
-- Kelompok 10: 
+Kelompok 10: 
 - Ferdy Ashari Putra (Hadir)
 - Ferry irwansyah (hadir)
 - Uray Muhammad R (hadir)
@@ -231,7 +231,7 @@ Jika Anda adalah anggota tim proyek, gunakan panduan berikut untuk mengelola kon
 
    ```bash
    git checkout nama_anda
-   git push origin main
+   git pull origin main
    ```
 
 ---
