@@ -1,8 +1,9 @@
 # 🌐 **Final Project Pemrograman Lanjut (C) - CMake dengan MinGW**
 
-Kelompok 10: 
-Ferdy Ashari Putra (Hadir)
-ferry irwansyah (hadir)
+- Kelompok 10: 
+- Ferdy Ashari Putra (Hadir)
+- Ferry irwansyah (hadir)
+- Uray Muhammad R (hadir)
 
 
 Berikut adalah dokumentasi untuk setup dan build project **Sistem Manajemen Pasien dan Kamar Pasien di sebuah Rumah Sakit** menggunakan **CMake** dengan generator **MinGW Makefiles**.
