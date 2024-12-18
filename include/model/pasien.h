@@ -10,4 +10,10 @@ typedef struct
   int idKamar;
 } Pasien;
 
+
+void pasienMenu();
+void createPasien();
+void displayPasien();
+void updatePasien();
+
 #endif
