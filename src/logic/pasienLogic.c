@@ -1,113 +1,181 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include "model/pasien.h"
 
-#define MAX_PATIENTS 100
+#define FILE_NAME "pasien.csv"
+#define MAX_PASIEN 100
 
-typedef struct {
-    int roomNumber;
-    char name[25];
-    int age;
-    char illness[100];
-} Patient;
+int pasienCount = 0;
 
-Patient patients[MAX_PATIENTS];
-int patientCount = 0;
-
-void addPatient() {
-    if (patientCount >= MAX_PATIENTS) {
-        printf("Kapasitas pasien penuh!\n");
-        return;
-    }
-
-    printf("Masukkan nomor kamar: ");
-    scanf("%d", &patients[patientCount].roomNumber);
-    getchar(); // Membersihkan buffer input
-
-    printf("Masukkan nama pasien: ");
-    fgets(patients[patientCount].name, 25, stdin);
-    strtok(patients[patientCount].name, "\n"); // Menghapus newline
-
-    printf("Masukkan usia pasien: ");
-    scanf("%d", &patients[patientCount].age);
-    getchar(); // Membersihkan buffer input
-
-    printf("Masukkan penyakit pasien: ");
-    fgets(patients[patientCount].illness, 100, stdin);
-    strtok(patients[patientCount].illness, "\n"); // Menghapus newline
-
-    patientCount++;
-    printf("Data pasien berhasil ditambahkan!\n");
-}
-
-void displayPatients() {
-    if (patientCount == 0) {
-        printf("Belum ada pasien yang terdaftar.\n");
-        return;
-    }
-
-    printf("Daftar Pasien:\n");
-    printf("----------------------------------------------------\n");
-    for (int i = 0; i < patientCount; i++) {
-        printf("Kamar %d: %s, Usia %d, Penyakit: %s\n",
-               patients[i].roomNumber,
-               patients[i].name,
-               patients[i].age,
-               patients[i].illness);
-    }
-    printf("----------------------------------------------------\n");
-}
-
-void searchPatient() {
-    int roomNumber;
-    printf("Masukkan nomor kamar yang ingin dicari: ");
-    scanf("%d", &roomNumber);
-
-    for (int i = 0; i < patientCount; i++) {
-        if (patients[i].roomNumber == roomNumber) {
-            printf("Pasien sudah ditemukan✅!n");
-            printf("Nama: %s\n", patients[i].name);
-            printf("Usia: %d\n", patients[i].age);
-            printf("Penyakit: %s\n", patients[i].illness);
-            return;
-        }
-    }
-    printf("Pasien dengan nomor kamar %d tidak ditemukan🤦.\n", roomNumber);
-}
-
-void showMenu() {
-    printf("Menu Rumah Sakit kelompok 1:\n");
-    printf("1. Silahkan tambah Data Pasien\n");
-    printf("2. Tampilkan Semua Pasien\n");
-    printf("3. Cari Pasien Berdasarkan Nomor Kamar\n");
-    printf("4. Keluar\n");
-    printf("Pilih menu: ");
-}
-
-int main() {
+void pasienMenu()
+{
     int choice;
-
-    do {
-        showMenu();
+    do
+    {
+        printf("\n-------------------\n");
+        printf("\n--- Pasien Menu ---\n");
+        printf("\n-------------------\n");
+        printf("1. Tambah Pasien\n");
+        printf("2. Tampilkan Semua Pasien\n");
+        printf("3. Update Pasien\n");
+        printf("4. Cari Pasien\n");
+        printf("0. Kembali\n");
+        printf("Pilih: ");
         scanf("%d", &choice);
-        getchar(); // Membersihkan buffer input
 
-        switch (choice) {
-            case 1:
-                addPatient();
-                break;
-            case 2:
-                displayPatients();
-                break;
-            case 3:
-                searchPatient();
-                break;
-            case 4:
-                printf("Terimakasih telah menggunakan sistem rumah sakit kami 😊😊.\n");
-                break;
-            default:
-                printf("Pilihan tidak valid. Silakan coba kembali 👌.\n");
+        switch (choice)
+        {
+        case 1:
+            createPasien();
+            break;
+        case 2:
+            displayPasiens();
+            break;
+        case 3:
+            updatePasien();
+            break;
+        case 4:
+            searchPasien();
+            break;
+        case 0:
+            printf("Kembali ke menu utama...\n");
+            break;
+        default:
+            printf("Pilihan tidak valid!\n");
         }
-    } while (choice != 4);
+    } while (choice != 0);
+}
 
-    return 0;
+void searchPasien()
+{
+    FILE *file = fopen(FILE_NAME, "r");
+    if (!file)
+    {
+        printf("File tidak ditemukan!\n");
+        return;
+    }
+
+    int id, found = 0;
+    Pasien pasien;
+
+    printf("Masukkan ID Pasien yang ingin dicari: ");
+    scanf("%d", &id);
+
+    while (fscanf(file, "%d,%s,%d,%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, &pasien.idKamar) != EOF)
+    {
+        if (pasien.idPasien == id)
+        {
+            printf("Pasien sudah ditemukan✅!\n");
+            printf("ID Pasien: %s\n", pasien.idPasien);
+            printf("Nama: %s\n", pasien.namaPasien);
+            printf("Usia: %d\n", pasien.umur);
+            printf("Penyakit: %s\n", pasien.penyakit);
+            printf("ID Kamar: %d\n", pasien.idKamar);
+            found = 1;
+            break;
+        }
+    }
+    fclose(file);
+
+    if (!found)
+    {
+        printf("Pasien dengan ID %d tidak ditemukan🤦.\n", id);
+    }
+}
+
+void createPasien()
+{
+    FILE *file = fopen(FILE_NAME, "a");
+    if (!file)
+    {
+        printf("Gagal membuka file!\n");
+        return;
+    }
+
+    Pasien pasien;
+    printf("Masukkan ID Pasien: ");
+    scanf("%d", &pasien.idPasien);
+    printf("Masukkan Nama Pasien: ");
+    scanf(" %49[^\n]", pasien.namaPasien);
+    printf("Masukkan Usia: ");
+    scanf("%d", &pasien.umur);
+    printf("Masukkan ID Kamar: ");
+    scanf("%d", &pasien.idKamar);
+
+    fprintf(file, "%d,%s,%d,%d\n", pasien.idPasien, pasien.namaPasien, pasien.umur, pasien.idKamar);
+    printf("Pasien %s berhasil ditambahkan!\n", pasien.namaPasien);
+    fclose(file);
+}
+
+void displayPasiens()
+{
+    FILE *file = fopen(FILE_NAME, "r");
+    if (!file)
+    {
+        printf("File kosong atau tidak ditemukan.\n");
+        return;
+    }
+
+    Pasien pasien;
+    printf("\n--- Daftar Pasien ---\n");
+    printf("ID | Nama           | Usia | ID Kamar\n");
+    while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, &pasien.idKamar) != EOF)
+    {
+        printf("%d | %-15s | %d | %d\n", pasien.idPasien, pasien.namaPasien, pasien.umur, pasien.idKamar);
+    }
+    fclose(file);
+}
+
+void updatePasien()
+{
+    FILE *file = fopen(FILE_NAME, "r");
+    if (!file)
+    {
+        printf("File tidak ditemukan!\n");
+        return;
+    }
+
+    Pasien pasiens[MAX_PASIEN];
+    int count = 0;
+    int id, found = 0;
+
+    while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) != EOF)
+    {
+        count++;
+    }
+    fclose(file);
+
+    printf("Masukkan ID Pasien yang ingin diupdate: ");
+    scanf("%d", &id);
+
+    for (int i = 0; i < count; i++)
+    {
+        if (pasiens[i].idPasien == id)
+        {
+            printf("Masukkan Nama Baru: ");
+            scanf(" %49[^\n]", pasiens[i].namaPasien);
+            printf("Masukkan Usia Baru: ");
+            scanf("%d", &pasiens[i].umur);
+            printf("Masukkan ID Kamar Baru: ");
+            scanf("%d", &pasiens[i].idKamar);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+    {
+        printf("Pasien dengan ID %d tidak ditemukan!\n", id);
+        return;
+    }
+
+    file = fopen(FILE_NAME, "w");
+    for (int i = 0; i < count; i++)
+    {
+        fprintf(file, "%d,%s,%d,%d\n", pasiens[i].idPasien, pasiens[i].namaPasien, pasiens[i].umur, pasiens[i].idKamar);
+    }
+    fclose(file);
+
+    printf("Pasien %d berhasil diupdate!\n", id);
 }
