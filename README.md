@@ -1,10 +1,10 @@
 # 🌐 **Final Project Pemrograman Lanjut (C) - CMake dengan MinGW**
 
-Kelompok 10: 
+Kelompok 10:
+
 - Ferdy Ashari Putra (Hadir)
 - Ferry irwansyah (hadir)
 - Uray Muhammad R (hadir)
-
 
 Berikut adalah dokumentasi untuk setup dan build project **Sistem Manajemen Pasien dan Kamar Pasien di sebuah Rumah Sakit** menggunakan **CMake** dengan generator **MinGW Makefiles**.
 
@@ -15,12 +15,15 @@ Berikut adalah dokumentasi untuk setup dan build project **Sistem Manajemen Pasi
 Pastikan perangkat Anda memiliki perangkat lunak berikut sebelum memulai:
 
 - **MinGW**: Pastikan sudah terinstal dan ditambahkan ke `PATH`. Instal dari [MinGW Installer](http://www.mingw.org/).
-Video tutorial Install MinGW untuk VSCode : https://www.youtube.com/watch?v=JsO58opI3SQ
+- Video tutorial Install MinGW untuk VSCode : https://www.youtube.com/watch?v=JsO58opI3SQ
 
-- **CMake**: Pastikan sudah terinstal (minimal versi 3.15, versi terbaru lebih baik) dan ditambahkan ke `PATH`. Instal dari [CMake Official Website](https://cmake.org/download/). 
-Note: - Pastikan download cmake yang windows installer dengan tipe file .msi
-      - Untuk memasukkan ke path ikuti cara yang sama seperti MinGW.
-      - Folder untuk CMAKE biasanya adalah "C:\Program Files\CMake\bin"
+- **CMake**: Pastikan sudah terinstal (minimal versi 3.15, versi terbaru lebih baik) dan ditambahkan ke `PATH`. Instal dari [CMake Official Website](https://cmake.org/download/).
+
+Note:
+
+- Pastikan download cmake yang windows installer dengan tipe file .msi
+- Untuk memasukkan ke path ikuti cara yang sama seperti MinGW.
+- Folder untuk CMAKE biasanya adalah "C:\Program Files\CMake\bin"
 
 ---
 
@@ -53,7 +56,7 @@ fp_pemlan/
 │   └── logic/           # Folder untuk menyimpan logika fungsi
 │       ├── kamarLogic.c
 │       └── pasienLogic.c
-│   
+│
 ├── CMakeLists.txt       # File konfigurasi CMake
 └── README.md            # Dokumentasi proyek
 ```
@@ -108,6 +111,7 @@ cd build
 Jalankan perintah berikut untuk menghasilkan file Makefile menggunakan generator `MinGW Makefiles`:
 
 ```bash
+cd build
 cmake -G "MinGW Makefiles" ..
 ```
 
@@ -133,6 +137,7 @@ Jika ada error, pastikan:
 Setelah file Makefile dihasilkan, jalankan perintah berikut untuk build proyek:
 
 ```bash
+cd build
 cmake --build .
 ```
 
