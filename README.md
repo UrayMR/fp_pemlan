@@ -5,6 +5,7 @@ Kelompok 10:
 - Ferdy Ashari Putra (Hadir)
 - Ferry irwansyah (hadir)
 - Uray Muhammad R (hadir)
+- Jauhari Achmad P (hadir)
 
 Berikut adalah dokumentasi untuk setup dan build project **Sistem Manajemen Pasien dan Kamar Pasien di sebuah Rumah Sakit** menggunakan **CMake** dengan generator **MinGW Makefiles**.
 
