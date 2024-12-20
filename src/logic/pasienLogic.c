@@ -19,7 +19,8 @@ void pasienMenu()
         printf("1. Tambah Pasien\n");
         printf("2. Tampilkan Semua Pasien\n");
         printf("3. Update Pasien\n");
-        printf("4. Cari Pasien\n");
+        printf("4. Hapus Pasien\n");
+        printf("5. Cari Pasien\n"); 
         printf("0. Kembali\n");
         printf("Pilih: ");
         scanf("%d", &choice);
@@ -36,6 +37,9 @@ void pasienMenu()
             updatePasien();
             break;
         case 4:
+            deletePasien();
+            break;
+        case 5:
             searchPasien();
             break;
         case 0:
@@ -178,4 +182,51 @@ void updatePasien()
     fclose(file);
 
     printf("Pasien %d berhasil diupdate!\n", id);
+
+void deletePasien()
+{
+  FILE *file = fopen(FILE_NAME, "r");
+  if (!file)
+  {
+    printf("File tidak ditemukan!\n");
+    return;
+  }
+
+  Pasien pasien[MAX_PASIEN];
+  int count = 0;
+  int id;
+  int found = 0;
+
+  while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) != EOF)
+  {
+    count++;
+  }
+  fclose(file);
+
+  printf("Masukkan ID Pasien yang ingin dihapus: ");
+  scanf("%d", &id);
+
+  file = fopen(FILE_NAME, "w");
+  for (int i = 0; i < count; i++)
+  {
+    if (pasien[i].idPasien != id)
+    {
+      fprintf(tempFile, "%d,%s,%d,%d\n", pasiens[i].idPasien, pasiens[i].namaPasien, pasiens[i].umur, pasiens[i].idKamar);
+    }
+    else
+    {
+      found = 1;
+    }
+  }
+  fclose(file);
+
+  if (found)
+  {
+    printf("Pasien dengan ID %d berhasil dihapus!\n", id);
+  }
+  else
+  {
+    printf("Pasien dengan ID %d tidak ditemukan!\n", id);
+  }
+}
 }
