@@ -14,6 +14,7 @@ void pasienMenu();
 void createPasien();
 void displayPasiens();
 void updatePasien();
+void deletePasien();
 void searchPasien();
 
 #endif
