@@ -16,13 +16,16 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 # Menambahkan file sumber secara dinamis menggunakan GLOB
 file(GLOB SOURCES
     "src/*.c"
-    "src/logic/*.c"
+    "src/kamar/utility/*.c"
+    "src/pasien/utility/*.c"
+    "src/kamar/*.c"
+    "src/pasien/*.c"
 )
 
 add_executable(app ${SOURCES})
 
 # Custom command untuk memantau perubahan file sumber
-add_custom_target(auto_build ALL
+add_custom_command(TARGET app POST_BUILD
     COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
     COMMENT "Membangun aplikasi setelah perubahan file."
 )

@@ -16,5 +16,6 @@ void displayPasiens();
 void updatePasien();
 void deletePasien();
 void searchPasien();
+int isDuplicatePasienId(int id);
 
 #endif

@@ -53,28 +53,59 @@ void kamarMenu()
   } while (choice != 0);
 }
 
+int isDuplicateKamarId(int id)
+{
+    FILE *file = fopen(FILE_NAME, "r");
+    if (!file)
+    {
+        printf("Gagal membuka file!\n");
+        return 0;
+    }
+
+    Kamar kamar;
+    while (fscanf(file, "%d,%d,%d,%d\n", &kamar.idKamar, &kamar.tipeKamar, &kamar.countPasien, &kamar.maxPasien) != EOF)
+    {
+        if (kamar.idKamar == id)
+        {
+            fclose(file);
+            return 1;
+        }
+    }
+    fclose(file);
+    return 0;
+}
+
 void createKamar()
 {
-  FILE *file = fopen(FILE_NAME, "a");
-  if (!file)
-  {
-    printf("Gagal membuka file!\n");
-    return;
-  }
+    FILE *file = fopen(FILE_NAME, "a");
+    if (!file)
+    {
+        printf("Gagal membuka file!\n");
+        return;
+    }
 
-  Kamar kamar;
-  printf("Masukkan ID Kamar: ");
-  scanf("%d", &kamar.idKamar);
-  printf("Masukkan Tipe Kamar (1: Standard, 2: VIP):");
-  scanf(" %d", &kamar.tipeKamar);
-  printf("Masukkan Kapasitas: ");
-  scanf("%d", &kamar.maxPasien);
+    Kamar kamar;
+    printf("Masukkan ID Kamar: ");
+    scanf("%d", &kamar.idKamar);
 
-  kamar.countPasien = 0; // Default
+    // Check for duplicate ID using utility function
+    if (isDuplicateKamarId(kamar.idKamar))
+    {
+        printf("ID Kamar sudah ada!\n");
+        fclose(file);
+        return;
+    }
 
-  fprintf(file, "%d,%d,%d,%d\n", kamar.idKamar, kamar.tipeKamar, kamar.countPasien, kamar.maxPasien);
-  printf("Kamar %d - %d berhasil ditambahkan!\n", kamar.idKamar, kamar.tipeKamar);
-  fclose(file);
+    printf("Masukkan Tipe Kamar (1: Standard, 2: VIP):");
+    scanf(" %d", &kamar.tipeKamar);
+    printf("Masukkan Kapasitas: ");
+    scanf("%d", &kamar.maxPasien);
+
+    kamar.countPasien = 0; // Default
+
+    fprintf(file, "%d,%d,%d,%d\n", kamar.idKamar, kamar.tipeKamar, kamar.countPasien, kamar.maxPasien);
+    printf("Kamar %d - %d berhasil ditambahkan!\n", kamar.idKamar, kamar.tipeKamar);
+    fclose(file);
 }
 
 void displayKamars()

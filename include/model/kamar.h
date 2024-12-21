@@ -16,5 +16,6 @@ void updateKamar();
 void deleteKamar();
 void searchKamar();
 void sortKamars();
+int isDuplicateKamarId(int id);
 
 #endif
