@@ -20,7 +20,7 @@ void pasienMenu()
         printf("2. Tampilkan Semua Pasien\n");
         printf("3. Update Pasien\n");
         printf("4. Hapus Pasien\n");
-        printf("5. Cari Pasien\n"); 
+        printf("5. Cari Pasien\n");
         printf("0. Kembali\n");
         printf("Pilih: ");
         scanf("%d", &choice);
@@ -182,51 +182,51 @@ void updatePasien()
     fclose(file);
 
     printf("Pasien %d berhasil diupdate!\n", id);
+}
 
 void deletePasien()
 {
-  FILE *file = fopen(FILE_NAME, "r");
-  if (!file)
-  {
-    printf("File tidak ditemukan!\n");
-    return;
-  }
-
-  Pasien pasien[MAX_PASIEN];
-  int count = 0;
-  int id;
-  int found = 0;
-
-  while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) != EOF)
-  {
-    count++;
-  }
-  fclose(file);
-
-  printf("Masukkan ID Pasien yang ingin dihapus: ");
-  scanf("%d", &id);
-
-  file = fopen(FILE_NAME, "w");
-  for (int i = 0; i < count; i++)
-  {
-    if (pasien[i].idPasien != id)
+    FILE *file = fopen(FILE_NAME, "r");
+    if (!file)
     {
-      fprintf(tempFile, "%d,%s,%d,%d\n", pasiens[i].idPasien, pasiens[i].namaPasien, pasiens[i].umur, pasiens[i].idKamar);
+        printf("File tidak ditemukan!\n");
+        return;
+    }
+
+    Pasien pasiens[MAX_PASIEN];
+    int count = 0;
+    int id;
+    int found = 0;
+
+    while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) != EOF)
+    {
+        count++;
+    }
+    fclose(file);
+
+    printf("Masukkan ID Pasien yang ingin dihapus: ");
+    scanf("%d", &id);
+
+    file = fopen(FILE_NAME, "w");
+    for (int i = 0; i < count; i++)
+    {
+        if (pasiens[i].idPasien != id)
+        {
+            fprintf(file, "%d,%s,%d,%d\n", pasiens[i].idPasien, pasiens[i].namaPasien, pasiens[i].umur, pasiens[i].idKamar);
+        }
+        else
+        {
+            found = 1;
+        }
+    }
+    fclose(file);
+
+    if (found)
+    {
+        printf("Pasien dengan ID %d berhasil dihapus!\n", id);
     }
     else
     {
-      found = 1;
+        printf("Pasien dengan ID %d tidak ditemukan!\n", id);
     }
-  }
-  fclose(file);
-
-  if (found)
-  {
-    printf("Pasien dengan ID %d berhasil dihapus!\n", id);
-  }
-  else
-  {
-    printf("Pasien dengan ID %d tidak ditemukan!\n", id);
-  }
-}
 }
