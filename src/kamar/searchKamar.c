@@ -20,23 +20,55 @@ int sequentialSearchKamar(Kamar kamars[], int count, int key)
 
 int jumpSearchKamar(Kamar kamars[], int count, int key)
 {
+  // For small arrays (n ≤ 3), use sequential search
+  if (count <= 3)
+  {
+    for (int i = 0; i < count; i++)
+    {
+      if (kamars[i].idKamar == key)
+        return i;
+    }
+    return -1;
+  }
+
   int step = sqrt(count);
   int prev = 0;
 
-  while (kamars[step].idKamar < key)
+  // Find the block
+  while (prev < count && kamars[min(step, count - 1)].idKamar < key)
   {
     prev = step;
-    step += sqrt(count);
-    if (step >= count)
+    step += (int)sqrt(count);
+    if (prev >= count)
       return -1;
   }
 
-  for (int i = prev; i < step; i++)
+  // Linear search
+  while (prev < count && kamars[prev].idKamar <= key)
   {
-    if (kamars[i].idKamar == key)
-      return i;
+    if (kamars[prev].idKamar == key)
+      return prev;
+    if (kamars[prev].idKamar > key)
+      break;
+    prev++;
   }
+
   return -1;
+}
+
+void helperSortKamar(Kamar arr[], int n)
+{
+  for (int i = 1; i < n; i++)
+  {
+    Kamar key = arr[i];
+    int j = i - 1;
+    while (j >= 0 && arr[j].idKamar > key.idKamar)
+    {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = key;
+  }
 }
 
 void searchKamar()
@@ -79,6 +111,23 @@ void searchKamar()
       printf("Input tidak valid. Silakan coba lagi.\n");
     while (getchar() != '\n')
       ;
+  }
+
+  if (method == 2)
+  {
+    printf("Mengurutkan data...\n");
+    helperSortKamar(kamars, count);
+    printf("Data telah diurutkan.\n");
+
+    // Validation check
+    for (int i = 0; i < count - 1; i++)
+    {
+      if (kamars[i].idKamar > kamars[i + 1].idKamar)
+      {
+        printf("Warning: Data tidak tersortir dengan benar!\n");
+        return;
+      }
+    }
   }
 
   clock_t start, end;
