@@ -8,6 +8,7 @@
 #define FILE_NAME "kamars.csv"
 #define MAX_KAMAR 100
 
+// Fungsi Sequential Search
 int sequentialSearchKamar(Kamar kamars[], int count, int key)
 {
   for (int i = 0; i < count; i++)
@@ -18,9 +19,10 @@ int sequentialSearchKamar(Kamar kamars[], int count, int key)
   return -1;
 }
 
+// Fungsi Jump Search
 int jumpSearchKamar(Kamar kamars[], int count, int key)
 {
-  // For small arrays (n ≤ 3), use sequential search
+  // Untuk array kecil menggunakan sequential search karena lebih cepat
   if (count <= 3)
   {
     for (int i = 0; i < count; i++)
@@ -31,19 +33,25 @@ int jumpSearchKamar(Kamar kamars[], int count, int key)
     return -1;
   }
 
+  // Menginisiasi loncatan
   int step = sqrt(count);
   int prev = 0;
 
-  // Find the block
+  // Jumping ke blok yang benar hingga menemukan blok yang lebih besar dari key
   while (prev < count && kamars[min(step, count - 1)].idKamar < key)
   {
+    // Update prev ke step (blok sebelumnya)
     prev = step;
+
+    // Melakukan loncatan ke blok berikutnya hingga menemukan blok yang lebih besar dari key
     step += (int)sqrt(count);
+
+    // Jika step lebih besar dari count, maka step diubah menjadi count - 1 agar tidak melebihi batas
     if (prev >= count)
       return -1;
   }
 
-  // Linear search
+  // Melakukan sequential search pada blok yang benar setelah melakukan jump
   while (prev < count && kamars[prev].idKamar <= key)
   {
     if (kamars[prev].idKamar == key)
@@ -56,6 +64,7 @@ int jumpSearchKamar(Kamar kamars[], int count, int key)
   return -1;
 }
 
+// Fungsi untuk mengurutkan data kamar dengan metode insertion sort sebelum melakukan jump search
 void helperSortKamar(Kamar arr[], int n)
 {
   for (int i = 1; i < n; i++)
@@ -71,6 +80,7 @@ void helperSortKamar(Kamar arr[], int n)
   }
 }
 
+// Fungsi untuk mencari kamar
 void searchKamar()
 {
   FILE *file = fopen(FILE_NAME, "r");
@@ -83,6 +93,7 @@ void searchKamar()
   Kamar kamars[MAX_KAMAR];
   int count = 0;
 
+  // Membaca data kamar dari file
   while (fscanf(file, "%d,%d,%d,%d\n", &kamars[count].idKamar, &kamars[count].tipeKamar, &kamars[count].countPasien, &kamars[count].maxPasien) != EOF)
   {
     count++;
@@ -113,6 +124,7 @@ void searchKamar()
       ;
   }
 
+  // Mengurutkan data jika menggunakan jump search
   if (method == 2)
   {
     printf("Mengurutkan data...\n");
@@ -130,6 +142,7 @@ void searchKamar()
     }
   }
 
+  // Melakukan perhitungan waktu eksekusi pencarian
   clock_t start, end;
   double cpu_time_used;
   int index = -1;

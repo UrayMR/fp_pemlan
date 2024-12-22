@@ -7,6 +7,7 @@
 
 #define FILE_NAME "pasien.csv"
 
+// fungsi sequential search
 int sequentialSearchPasien(Pasien pasiens[], int count, int key)
 {
   for (int i = 0; i < count; i++)
@@ -17,9 +18,10 @@ int sequentialSearchPasien(Pasien pasiens[], int count, int key)
   return -1;
 }
 
+// Fungsi jump search
 int jumpSearchPasien(Pasien pasiens[], int count, int key)
 {
-  // For small arrays (n ≤ 3), use sequential search
+  // Untuk array kecil menggunakan sequential search karena lebih cepat
   if (count <= 3)
   {
     for (int i = 0; i < count; i++)
@@ -30,20 +32,25 @@ int jumpSearchPasien(Pasien pasiens[], int count, int key)
     return -1;
   }
 
-  // Ensure we start at beginning
+  // Menginisiasi loncatan
   int step = (int)sqrt(count);
   int prev = 0;
 
-  // Find block where element might be
+  // Jumping ke blok yang benar hingga menemukan blok yang lebih besar dari key
   while (prev < count && pasiens[min(step, count - 1)].idPasien < key)
   {
+    // Update prev ke step (blok sebelumnya)
     prev = step;
+
+    // Melakukan loncatan ke blok berikutnya hingga menemukan blok yang lebih besar dari key
     step += (int)sqrt(count);
+
+    // Jika step lebih besar dari count, maka step diubah menjadi count - 1 agar tidak melebihi batas
     if (prev >= count)
       return -1;
   }
 
-  // Linear search in found block
+  // Melakukan sequential search pada blok yang benar setelah melakukan jump
   while (prev >= 0 && prev < count)
   {
     if (pasiens[prev].idPasien == key)
@@ -56,6 +63,7 @@ int jumpSearchPasien(Pasien pasiens[], int count, int key)
   return -1;
 }
 
+// Fungsi untuk mengurutkan data pasien dengan metode insertion sort sebelum melakukan jump search
 void helperSortPasien(Pasien arr[], int n)
 {
   for (int i = 1; i < n; i++)
@@ -71,6 +79,7 @@ void helperSortPasien(Pasien arr[], int n)
   }
 }
 
+// Fungsi untuk mencari pasien
 void searchPasien()
 {
   FILE *file = fopen(FILE_NAME, "r");
@@ -85,7 +94,10 @@ void searchPasien()
 
   while (1)
   {
+    // realokasi memori untuk menambahkan data pasien
     pasiens = realloc(pasiens, (count + 1) * sizeof(Pasien));
+
+    // membaca data pasien dari file
     if (fscanf(file, "%d,%49[^\n,],%d,%99[^\n,],%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, pasiens[count].penyakit, &pasiens[count].idKamar) == EOF)
       break;
     count++;
@@ -118,13 +130,14 @@ void searchPasien()
       ;
   }
 
+  // Mengurutkan data jika menggunakan jump search
   if (method == 2)
   {
     printf("Mengurutkan data...\n");
     helperSortPasien(pasiens, count);
     printf("Data telah diurutkan.\n");
 
-    // Only show validation if there's an error
+    // Mengecek apakah data sudah terurut dengan benar
     for (int i = 0; i < count - 1; i++)
     {
       if (pasiens[i].idPasien > pasiens[i + 1].idPasien)
@@ -136,6 +149,7 @@ void searchPasien()
     }
   }
 
+  // Menghitung waktu eksekusi pencarian
   clock_t start, end;
   double cpu_time_used;
   int index = -1;

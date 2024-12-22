@@ -1,6 +1,7 @@
 #ifndef PATIENT_H
 #define PATIENT_H
 
+// Inisiasi struktur data Pasien
 typedef struct
 {
   int idPasien;
@@ -10,6 +11,7 @@ typedef struct
   int idKamar;
 } Pasien;
 
+// Deklarasi fungsi-fungsi yang akan digunakan agar bisa dipanggil di file lain
 int min(int a, int b);
 
 void pasienMenu();

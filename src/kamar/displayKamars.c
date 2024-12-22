@@ -15,6 +15,7 @@ void displayKamars()
     return;
   }
 
+  // Membaca file dan menampilkan data kamar
   Kamar kamar;
   printf("\n--- Daftar Kamar ---\n");
   printf("%-3s | %-10s | %-10s\n", "ID", "Tipe Kamar", "Kapasitas");

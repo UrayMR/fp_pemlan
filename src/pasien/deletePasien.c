@@ -17,6 +17,7 @@ void deletePasien()
     return;
   }
 
+  // Inisiasi struktur data Pasien dan Kamar karena saling berhubungan
   Pasien *pasiens = NULL;
   Kamar kamars[MAX_KAMAR];
   int count = 0;
@@ -28,7 +29,10 @@ void deletePasien()
   // Read all pasien data
   while (1)
   {
+    // Realokasi memory untuk pasien
     pasiens = realloc(pasiens, (count + 1) * sizeof(Pasien));
+
+    // Read data pasien
     if (fscanf(file, "%d,%49[^\n,],%d,%[^\n,],%d\n",
                &pasiens[count].idPasien,
                pasiens[count].namaPasien,
@@ -62,7 +66,7 @@ void deletePasien()
   }
   fclose(kamarFile);
 
-  // Delete pasien and get kamar ID
+  // Delete pasien dan dapatkan kamar ID untuk mengurangi count pasien
   file = fopen(FILE_NAME, "w");
   for (int i = 0; i < count; i++)
   {
@@ -83,10 +87,10 @@ void deletePasien()
   }
   fclose(file);
 
-  // Update kamar count if pasien found
+  // Update kamar count jika pasien ditemukan
   if (found)
   {
-    // Find and update kamar
+    // cari dan kurangi countPasien
     for (int i = 0; i < kamarCount; i++)
     {
       if (kamars[i].idKamar == deletedKamarId)

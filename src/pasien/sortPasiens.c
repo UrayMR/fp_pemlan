@@ -6,6 +6,7 @@
 
 #define FILE_NAME "pasien.csv"
 
+// Fungsi bubbleSort
 void bubbleSortPasien(Pasien arr[], int n, int choice, int ascending)
 {
   for (int i = 0; i < n - 1; i++)
@@ -30,6 +31,7 @@ void bubbleSortPasien(Pasien arr[], int n, int choice, int ascending)
   }
 }
 
+// fungsi selectionSort
 void selectionSortPasien(Pasien arr[], int n, int choice, int ascending)
 {
   for (int i = 0; i < n - 1; i++)
@@ -56,6 +58,7 @@ void selectionSortPasien(Pasien arr[], int n, int choice, int ascending)
   }
 }
 
+// Fungsi Insertion Sort
 void insertionSortPasien(Pasien arr[], int n, int choice, int ascending)
 {
   for (int i = 1; i < n; i++)
@@ -86,6 +89,7 @@ void insertionSortPasien(Pasien arr[], int n, int choice, int ascending)
   }
 }
 
+// fungsi sortir pasien
 void sortPasiens()
 {
   FILE *file = fopen(FILE_NAME, "r");
@@ -100,7 +104,10 @@ void sortPasiens()
 
   while (1)
   {
+    // realokasi memori untuk menampung data pasien
     pasiens = realloc(pasiens, (count + 1) * sizeof(Pasien));
+
+    // membaca data pasien dari file
     if (fscanf(file, "%d,%49[^\n,],%d,%99[^\n,],%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, pasiens[count].penyakit, &pasiens[count].idKamar) == EOF)
       break;
     count++;
@@ -153,7 +160,10 @@ void sortPasiens()
       ; // Clear input buffer
   }
 
+  // Ascending jika order = 1, descending jika order = 2
   int ascending = (order == 1);
+
+  // Inisiasi waktu eksekusi untuk sorting
   clock_t start, end;
   double cpu_time_used;
 

@@ -7,6 +7,7 @@
 #define FILE_NAME "kamars.csv"
 #define MAX_KAMAR 100
 
+// Fungsi untuk melakukan bubble sort pada data kamar
 void bubbleSortKamar(Kamar kamars[], int count, int choice, int ascending)
 {
   for (int i = 0; i < count - 1; i++)
@@ -33,6 +34,7 @@ void bubbleSortKamar(Kamar kamars[], int count, int choice, int ascending)
   }
 }
 
+// Fungsi untuk melakukan insertion sort pada data kamar
 void insertionSortKamar(Kamar kamars[], int count, int choice, int ascending)
 {
   for (int i = 1; i < count; i++)
@@ -65,6 +67,7 @@ void insertionSortKamar(Kamar kamars[], int count, int choice, int ascending)
   }
 }
 
+// Fungsi untuk melakukan selection sort pada data kamar
 void selectionSortKamar(Kamar kamars[], int count, int choice, int ascending)
 {
   for (int i = 0; i < count - 1; i++)
@@ -93,6 +96,7 @@ void selectionSortKamar(Kamar kamars[], int count, int choice, int ascending)
   }
 }
 
+// Fungsi sort kamar
 void sortKamars()
 {
   FILE *file = fopen(FILE_NAME, "r");
@@ -118,7 +122,7 @@ void sortKamars()
     return;
   }
 
-  int choice, order = 0, algorithm = 0; // Initialize order and algorithm
+  int choice, order = 0, algorithm = 0;
   while (1)
   {
     printf("\n--- Pilih Opsi Sort ---\n");
@@ -158,7 +162,10 @@ void sortKamars()
       ; // Clear input buffer
   }
 
+  // Ascending jika order = 1, descending jika order = 2
   int ascending = (order == 1);
+
+  // Inisiai waktu eksekusi untuk sorting
   clock_t start, end;
   double cpu_time_used;
 
