@@ -4,7 +4,6 @@
 #include "model/pasien.h"
 
 #define FILE_NAME "pasien.csv"
-#define MAX_PASIEN 100
 
 void displayPasiens()
 {
@@ -15,12 +14,20 @@ void displayPasiens()
     return;
   }
 
-  Pasien pasien;
+  Pasien *pasiens = NULL;
+  int count = 0;
+
   printf("\n--- Daftar Pasien ---\n");
-  printf("ID | Nama           | Usia | ID Kamar\n");
-  while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, &pasien.idKamar) != EOF)
+  printf("ID  | Nama            | Usia | ID Kamar\n");
+  while (1)
   {
-    printf("%d | %-15s | %d | %d\n", pasien.idPasien, pasien.namaPasien, pasien.umur, pasien.idKamar);
+    pasiens = realloc(pasiens, (count + 1) * sizeof(Pasien));
+    if (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) == EOF)
+      break;
+    printf("%-3d | %-15s | %-4d | %d\n", pasiens[count].idPasien, pasiens[count].namaPasien, pasiens[count].umur, pasiens[count].idKamar);
+    count++;
   }
   fclose(file);
+
+  free(pasiens);
 }

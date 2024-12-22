@@ -4,7 +4,6 @@
 #include "model/pasien.h"
 
 #define FILE_NAME "pasien.csv"
-#define MAX_PASIEN 100
 
 void deletePasien()
 {
@@ -15,13 +14,16 @@ void deletePasien()
     return;
   }
 
-  Pasien pasiens[MAX_PASIEN];
+  Pasien *pasiens = NULL;
   int count = 0;
   int id;
   int found = 0;
 
-  while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) != EOF)
+  while (1)
   {
+    pasiens = realloc(pasiens, (count + 1) * sizeof(Pasien));
+    if (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) == EOF)
+      break;
     count++;
   }
   fclose(file);
@@ -51,4 +53,6 @@ void deletePasien()
   {
     printf("Pasien dengan ID %d tidak ditemukan!\n", id);
   }
+
+  free(pasiens);
 }

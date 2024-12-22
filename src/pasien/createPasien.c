@@ -5,7 +5,6 @@
 #include "model/kamar.h"
 
 #define FILE_NAME "pasien.csv"
-#define MAX_PASIEN 100
 
 void createPasien()
 {
