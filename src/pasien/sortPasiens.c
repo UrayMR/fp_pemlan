@@ -6,7 +6,7 @@
 
 #define FILE_NAME "pasien.csv"
 
-void bubbleSort(Pasien arr[], int n, int choice, int ascending)
+void bubbleSortPasien(Pasien arr[], int n, int choice, int ascending)
 {
   for (int i = 0; i < n - 1; i++)
   {
@@ -20,6 +20,8 @@ void bubbleSort(Pasien arr[], int n, int choice, int ascending)
       else if (choice == 3)
         compare = arr[j].umur > arr[j + 1].umur;
       else if (choice == 4)
+        compare = strcmp(arr[j].penyakit, arr[j + 1].penyakit) > 0;
+      else if (choice == 5)
         compare = arr[j].idKamar > arr[j + 1].idKamar;
 
       if ((ascending && compare) || (!ascending && !compare))
@@ -32,7 +34,7 @@ void bubbleSort(Pasien arr[], int n, int choice, int ascending)
   }
 }
 
-void selectionSort(Pasien arr[], int n, int choice, int ascending)
+void selectionSortPasien(Pasien arr[], int n, int choice, int ascending)
 {
   for (int i = 0; i < n - 1; i++)
   {
@@ -47,6 +49,8 @@ void selectionSort(Pasien arr[], int n, int choice, int ascending)
       else if (choice == 3)
         compare = arr[j].umur < arr[minIdx].umur;
       else if (choice == 4)
+        compare = strcmp(arr[j].penyakit, arr[minIdx].penyakit) < 0;
+      else if (choice == 5)
         compare = arr[j].idKamar < arr[minIdx].idKamar;
 
       if ((ascending && compare) || (!ascending && !compare))
@@ -60,7 +64,7 @@ void selectionSort(Pasien arr[], int n, int choice, int ascending)
   }
 }
 
-void insertionSort(Pasien arr[], int n, int choice, int ascending)
+void insertionSortPasien(Pasien arr[], int n, int choice, int ascending)
 {
   for (int i = 1; i < n; i++)
   {
@@ -76,6 +80,8 @@ void insertionSort(Pasien arr[], int n, int choice, int ascending)
       else if (choice == 3)
         compare = arr[j].umur > key.umur;
       else if (choice == 4)
+        compare = strcmp(arr[j].penyakit, key.penyakit) > 0;
+      else if (choice == 5)
         compare = arr[j].idKamar > key.idKamar;
 
       if ((ascending && compare) || (!ascending && !compare))
@@ -107,7 +113,7 @@ void sortPasiens()
   while (1)
   {
     pasiens = realloc(pasiens, (count + 1) * sizeof(Pasien));
-    if (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) == EOF)
+    if (fscanf(file, "%d,%49[^\n,],%d,%99[^\n,],%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, pasiens[count].penyakit, &pasiens[count].idKamar) == EOF)
       break;
     count++;
   }
@@ -120,16 +126,17 @@ void sortPasiens()
     return;
   }
 
-  int choice, order, method;
+  int choice, order = 0, method = 0;
   while (1)
   {
     printf("\n--- Pilih Kolom Sort ---\n");
     printf("1. ID\n");
     printf("2. Nama\n");
     printf("3. Usia\n");
-    printf("4. ID Kamar\n");
+    printf("4. Penyakit\n");
+    printf("5. ID Kamar\n");
     printf("Pilih kolom: ");
-    if (scanf("%d", &choice) == 1 && (choice >= 1 && choice <= 4))
+    if (scanf("%d", &choice) == 1 && (choice >= 1 && choice <= 5))
       break;
     else
       printf("Input tidak valid. Silakan coba lagi.\n");
@@ -166,19 +173,19 @@ void sortPasiens()
 
   start = clock();
   if (method == 1)
-    bubbleSort(pasiens, count, choice, ascending);
+    bubbleSortPasien(pasiens, count, choice, ascending);
   else if (method == 2)
-    selectionSort(pasiens, count, choice, ascending);
+    selectionSortPasien(pasiens, count, choice, ascending);
   else if (method == 3)
-    insertionSort(pasiens, count, choice, ascending);
+    insertionSortPasien(pasiens, count, choice, ascending);
   end = clock();
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
 
   printf("\n--- Data Pasien Setelah Sorting ---\n");
-  printf("%-3s | %-15s | %-4s | %-8s\n", "ID", "Nama", "Usia", "ID Kamar");
+  printf("%-3s | %-15s | %-4s | %-20s | %-8s\n", "ID", "Nama", "Usia", "Penyakit", "ID Kamar");
   for (int i = 0; i < count; i++)
   {
-    printf("%-3d | %-15s | %-4d | %-8d\n", pasiens[i].idPasien, pasiens[i].namaPasien, pasiens[i].umur, pasiens[i].idKamar);
+    printf("%-3d | %-15s | %-4d | %-20s | %-8d\n", pasiens[i].idPasien, pasiens[i].namaPasien, pasiens[i].umur, pasiens[i].penyakit, pasiens[i].idKamar);
   }
 
   printf("\nWaktu eksekusi sorting: %f detik\n", cpu_time_used);

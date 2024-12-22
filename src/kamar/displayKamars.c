@@ -17,10 +17,10 @@ void displayKamars()
 
   Kamar kamar;
   printf("\n--- Daftar Kamar ---\n");
-  printf("ID | Tipe Kamar | Kapasitas\n");
+  printf("%-3s | %-10s | %-10s\n", "ID", "Tipe Kamar", "Kapasitas");
   while (fscanf(file, "%d,%d,%d,%d\n", &kamar.idKamar, &kamar.tipeKamar, &kamar.countPasien, &kamar.maxPasien) != EOF)
   {
-    printf("%d | %d | %d / %d\n", kamar.idKamar, kamar.tipeKamar, kamar.countPasien, kamar.maxPasien);
+    printf("%-3d | %-10d | %-3d / %-3d\n", kamar.idKamar, kamar.tipeKamar, kamar.countPasien, kamar.maxPasien);
   }
   fclose(file);
 }

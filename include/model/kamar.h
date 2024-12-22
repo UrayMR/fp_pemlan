@@ -18,8 +18,11 @@ void searchKamar();
 void sortKamars();
 int isDuplicateKamarId(int id);
 
-void bubbleSort(Kamar kamars[], int count, int choice, int ascending);
-void insertionSort(Kamar kamars[], int count, int choice, int ascending);
-void selectionSort(Kamar kamars[], int count, int choice, int ascending);
+void bubbleSortKamar(Kamar kamars[], int count, int choice, int ascending);
+void insertionSortKamar(Kamar kamars[], int count, int choice, int ascending);
+void selectionSortKamar(Kamar kamars[], int count, int choice, int ascending);
+
+int sequentialSearchKamar(Kamar kamars[], int count, int key);
+int jumpSearchKamar(Kamar kamars[], int count, int key);
 
 #endif

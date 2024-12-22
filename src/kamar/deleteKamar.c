@@ -29,6 +29,15 @@ void deleteKamar()
   printf("Masukkan ID Kamar yang ingin dihapus: ");
   scanf("%d", &id);
 
+  for (int i = 0; i < count; i++)
+  {
+    if (kamars[i].idKamar == id && kamars[i].countPasien > 0)
+    {
+      printf("Kamar dengan ID %d masih memiliki pasien. Silakan pindahkan pasien terlebih dahulu.\n", id);
+      return;
+    }
+  }
+
   file = fopen(FILE_NAME, "w");
   for (int i = 0; i < count; i++)
   {

@@ -19,8 +19,11 @@ void searchPasien();
 void sortPasiens();
 int isDuplicatePasienId(int id);
 
-void bubbleSort(Pasien arr[], int n, int choice, int ascending);
-void selectionSort(Pasien arr[], int n, int choice, int ascending);
-void insertionSort(Pasien arr[], int n, int choice, int ascending);
+void bubbleSortPasien(Pasien arr[], int n, int choice, int ascending);
+void selectionSortPasien(Pasien arr[], int n, int choice, int ascending);
+void insertionSortPasien(Pasien arr[], int n, int choice, int ascending);
+
+int sequentialSearchPasien(Pasien pasiens[], int count, int key);
+int jumpSearchPasien(Pasien pasiens[], int count, int key);
 
 #endif

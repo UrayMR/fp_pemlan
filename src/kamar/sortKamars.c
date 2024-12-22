@@ -7,7 +7,7 @@
 #define FILE_NAME "kamars.csv"
 #define MAX_KAMAR 100
 
-void bubbleSort(Kamar kamars[], int count, int choice, int ascending)
+void bubbleSortKamar(Kamar kamars[], int count, int choice, int ascending)
 {
   for (int i = 0; i < count - 1; i++)
   {
@@ -33,7 +33,7 @@ void bubbleSort(Kamar kamars[], int count, int choice, int ascending)
   }
 }
 
-void insertionSort(Kamar kamars[], int count, int choice, int ascending)
+void insertionSortKamar(Kamar kamars[], int count, int choice, int ascending)
 {
   for (int i = 1; i < count; i++)
   {
@@ -65,7 +65,7 @@ void insertionSort(Kamar kamars[], int count, int choice, int ascending)
   }
 }
 
-void selectionSort(Kamar kamars[], int count, int choice, int ascending)
+void selectionSortKamar(Kamar kamars[], int count, int choice, int ascending)
 {
   for (int i = 0; i < count - 1; i++)
   {
@@ -118,7 +118,7 @@ void sortKamars()
     return;
   }
 
-  int choice, order, algorithm;
+  int choice, order = 0, algorithm = 0; // Initialize order and algorithm
   while (1)
   {
     printf("\n--- Pilih Opsi Sort ---\n");
@@ -164,11 +164,11 @@ void sortKamars()
 
   start = clock();
   if (algorithm == 1)
-    bubbleSort(kamars, count, choice, ascending);
+    bubbleSortKamar(kamars, count, choice, ascending);
   else if (algorithm == 2)
-    insertionSort(kamars, count, choice, ascending);
+    insertionSortKamar(kamars, count, choice, ascending);
   else if (algorithm == 3)
-    selectionSort(kamars, count, choice, ascending);
+    selectionSortKamar(kamars, count, choice, ascending);
   end = clock();
 
   cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
