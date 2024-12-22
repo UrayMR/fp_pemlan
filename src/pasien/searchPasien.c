@@ -4,7 +4,6 @@
 #include "model/pasien.h"
 
 #define FILE_NAME "pasien.csv"
-#define MAX_PASIEN 100
 
 void searchPasien()
 {
@@ -21,12 +20,12 @@ void searchPasien()
   printf("Masukkan ID Pasien yang ingin dicari: ");
   scanf("%d", &id);
 
-  while (fscanf(file, "%d,%s,%d,%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, &pasien.idKamar) != EOF)
+  while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, &pasien.idKamar) != EOF)
   {
     if (pasien.idPasien == id)
     {
       printf("Pasien sudah ditemukan✅!\n");
-      printf("ID Pasien: %s\n", pasien.idPasien);
+      printf("ID Pasien: %d\n", pasien.idPasien);
       printf("Nama: %s\n", pasien.namaPasien);
       printf("Usia: %d\n", pasien.umur);
       printf("Penyakit: %s\n", pasien.penyakit);

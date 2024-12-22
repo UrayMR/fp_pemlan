@@ -4,7 +4,6 @@
 #include "model/pasien.h"
 
 #define FILE_NAME "pasien.csv"
-#define MAX_PASIEN 100
 
 void pasienMenu()
 {
