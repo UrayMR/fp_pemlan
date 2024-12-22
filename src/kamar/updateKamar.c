@@ -34,7 +34,7 @@ void updateKamar()
   {
     if (kamars[i].idKamar == id)
     {
-      printf("Masukkan Tipe Kamar: (0: Tidak ada kamar, 1: Standard, 2: VIP)");
+      printf("Masukkan Tipe Kamar (1: Standard, 2: VIP): ");
       scanf(" %d", &kamars[i].tipeKamar);
       printf("Masukkan Kapasitas Baru: ");
       scanf("%d", &kamars[i].maxPasien);

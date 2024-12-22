@@ -15,7 +15,7 @@ int isDuplicatePasienId(int id)
   }
 
   Pasien pasien;
-  while (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, &pasien.idKamar) != EOF)
+  while (fscanf(file, "%d,%s,%d,%s,%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, pasien.penyakit, &pasien.idKamar) != EOF)
   {
     if (pasien.idPasien == id)
     {
