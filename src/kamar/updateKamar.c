@@ -34,11 +34,15 @@ void updateKamar()
   {
     if (kamars[i].idKamar == id)
     {
+      if (kamars[i].countPasien > 0)
+      {
+        printf("Kamar dengan ID %d masih memiliki pasien. Tidak boleh diupdate.\n", id);
+        return;
+      }
       printf("Masukkan Tipe Kamar (1: Standard, 2: VIP): ");
       scanf(" %d", &kamars[i].tipeKamar);
       printf("Masukkan Kapasitas Baru: ");
       scanf("%d", &kamars[i].maxPasien);
-      kamars[i].countPasien = 0; // otomatis mengembalikan count Pasien ke 0
       found = 1;
       break;
     }
