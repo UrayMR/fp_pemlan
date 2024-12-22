@@ -19,23 +19,56 @@ int sequentialSearchPasien(Pasien pasiens[], int count, int key)
 
 int jumpSearchPasien(Pasien pasiens[], int count, int key)
 {
-  int step = sqrt(count);
+  // For small arrays (n ≤ 3), use sequential search
+  if (count <= 3)
+  {
+    for (int i = 0; i < count; i++)
+    {
+      if (pasiens[i].idPasien == key)
+        return i;
+    }
+    return -1;
+  }
+
+  // Ensure we start at beginning
+  int step = (int)sqrt(count);
   int prev = 0;
 
-  while (pasiens[step].idPasien < key)
+  // Find block where element might be
+  while (prev < count && pasiens[min(step, count - 1)].idPasien < key)
   {
     prev = step;
-    step += sqrt(count);
-    if (step >= count)
+    step += (int)sqrt(count);
+    if (prev >= count)
       return -1;
   }
 
-  for (int i = prev; i < step; i++)
+  // Linear search in found block
+  while (prev >= 0 && prev < count)
   {
-    if (pasiens[i].idPasien == key)
-      return i;
+    if (pasiens[prev].idPasien == key)
+      return prev;
+    if (pasiens[prev].idPasien > key)
+      break;
+    prev++;
   }
+
   return -1;
+}
+
+void helperSortPasien(Pasien arr[], int n)
+{
+  for (int i = 1; i < n; i++)
+  {
+    Pasien key = arr[i];
+    int j = i - 1;
+    while (j >= 0 && arr[j].idPasien > key.idPasien)
+    {
+      arr[j + 1] = arr[j];
+      j--;
+    }
+    arr[j + 1] = key;
+  }
 }
 
 void searchPasien()
@@ -53,7 +86,7 @@ void searchPasien()
   while (1)
   {
     pasiens = realloc(pasiens, (count + 1) * sizeof(Pasien));
-    if (fscanf(file, "%d,%49[^\n,],%d,%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, &pasiens[count].idKamar) == EOF)
+    if (fscanf(file, "%d,%49[^\n,],%d,%99[^\n,],%d\n", &pasiens[count].idPasien, pasiens[count].namaPasien, &pasiens[count].umur, pasiens[count].penyakit, &pasiens[count].idKamar) == EOF)
       break;
     count++;
   }
@@ -83,6 +116,24 @@ void searchPasien()
       printf("Input tidak valid. Silakan coba lagi.\n");
     while (getchar() != '\n')
       ;
+  }
+
+  if (method == 2)
+  {
+    printf("Mengurutkan data...\n");
+    helperSortPasien(pasiens, count);
+    printf("Data telah diurutkan.\n");
+
+    // Only show validation if there's an error
+    for (int i = 0; i < count - 1; i++)
+    {
+      if (pasiens[i].idPasien > pasiens[i + 1].idPasien)
+      {
+        printf("Warning: Data tidak tersortir dengan benar!\n");
+        free(pasiens);
+        return;
+      }
+    }
   }
 
   clock_t start, end;

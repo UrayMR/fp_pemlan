@@ -4,6 +4,7 @@
     "pasien.h": "c",
     "stdlib.h": "c",
     "stdio.h": "c",
-    "kamar.h": "c"
+    "kamar.h": "c",
+    "string.h": "c"
   }
 }

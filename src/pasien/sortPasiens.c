@@ -16,12 +16,8 @@ void bubbleSortPasien(Pasien arr[], int n, int choice, int ascending)
       if (choice == 1)
         compare = arr[j].idPasien > arr[j + 1].idPasien;
       else if (choice == 2)
-        compare = strcmp(arr[j].namaPasien, arr[j + 1].namaPasien) > 0;
-      else if (choice == 3)
         compare = arr[j].umur > arr[j + 1].umur;
-      else if (choice == 4)
-        compare = strcmp(arr[j].penyakit, arr[j + 1].penyakit) > 0;
-      else if (choice == 5)
+      else if (choice == 3)
         compare = arr[j].idKamar > arr[j + 1].idKamar;
 
       if ((ascending && compare) || (!ascending && !compare))
@@ -45,12 +41,8 @@ void selectionSortPasien(Pasien arr[], int n, int choice, int ascending)
       if (choice == 1)
         compare = arr[j].idPasien < arr[minIdx].idPasien;
       else if (choice == 2)
-        compare = strcmp(arr[j].namaPasien, arr[minIdx].namaPasien) < 0;
-      else if (choice == 3)
         compare = arr[j].umur < arr[minIdx].umur;
-      else if (choice == 4)
-        compare = strcmp(arr[j].penyakit, arr[minIdx].penyakit) < 0;
-      else if (choice == 5)
+      else if (choice == 3)
         compare = arr[j].idKamar < arr[minIdx].idKamar;
 
       if ((ascending && compare) || (!ascending && !compare))
@@ -76,12 +68,8 @@ void insertionSortPasien(Pasien arr[], int n, int choice, int ascending)
       if (choice == 1)
         compare = arr[j].idPasien > key.idPasien;
       else if (choice == 2)
-        compare = strcmp(arr[j].namaPasien, key.namaPasien) > 0;
-      else if (choice == 3)
         compare = arr[j].umur > key.umur;
-      else if (choice == 4)
-        compare = strcmp(arr[j].penyakit, key.penyakit) > 0;
-      else if (choice == 5)
+      else if (choice == 3)
         compare = arr[j].idKamar > key.idKamar;
 
       if ((ascending && compare) || (!ascending && !compare))
@@ -131,12 +119,10 @@ void sortPasiens()
   {
     printf("\n--- Pilih Kolom Sort ---\n");
     printf("1. ID\n");
-    printf("2. Nama\n");
-    printf("3. Usia\n");
-    printf("4. Penyakit\n");
-    printf("5. ID Kamar\n");
+    printf("2. Usia\n");
+    printf("3. ID Kamar\n");
     printf("Pilih kolom: ");
-    if (scanf("%d", &choice) == 1 && (choice >= 1 && choice <= 5))
+    if (scanf("%d", &choice) == 1 && (choice >= 1 && choice <= 3))
       break;
     else
       printf("Input tidak valid. Silakan coba lagi.\n");

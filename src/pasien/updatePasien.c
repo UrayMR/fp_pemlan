@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "model/pasien.h"
+#include "model/kamar.h"
 
 #define FILE_NAME "pasien.csv"
 
@@ -45,8 +46,52 @@ void updatePasien()
       scanf("%d", &pasiens[i].umur);
       printf("Masukkan Penyakit Baru: ");
       scanf(" %99[^\n]", pasiens[i].penyakit);
-      printf("Masukkan ID Kamar Baru: ");
-      scanf("%d", &pasiens[i].idKamar);
+
+      int newKamarId;
+      while (1)
+      {
+        printf("Masukkan ID Kamar Baru: ");
+        scanf("%d", &newKamarId);
+
+        FILE *kamarFile = fopen("kamars.csv", "r");
+        if (!kamarFile)
+        {
+          printf("Gagal membuka file kamar!\n");
+          free(pasiens);
+          return;
+        }
+
+        Kamar kamar;
+        int kamarFound = 0;
+        while (fscanf(kamarFile, "%d,%d,%d,%d\n", &kamar.idKamar, &kamar.tipeKamar, &kamar.countPasien, &kamar.maxPasien) != EOF)
+        {
+          if (kamar.idKamar == newKamarId)
+          {
+            kamarFound = 1;
+            if (kamar.countPasien < kamar.maxPasien)
+            {
+              pasiens[i].idKamar = newKamarId;
+              fclose(kamarFile);
+              break;
+            }
+            else
+            {
+              printf("Kamar dengan ID %d sudah penuh. Silakan masukkan ID kamar lain.\n", newKamarId);
+            }
+          }
+        }
+        fclose(kamarFile);
+
+        if (kamarFound && pasiens[i].idKamar == newKamarId)
+        {
+          break;
+        }
+        else if (!kamarFound)
+        {
+          printf("ID Kamar tidak ditemukan. Silakan masukkan ID kamar lain.\n");
+        }
+      }
+
       found = 1;
       break;
     }

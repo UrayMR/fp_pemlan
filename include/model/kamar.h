@@ -9,6 +9,8 @@ typedef struct
   int maxPasien;   // Maksimal pasien
 } Kamar;
 
+int min(int a, int b);
+
 void kamarMenu();
 void createKamar();
 void displayKamars();
@@ -24,5 +26,6 @@ void selectionSortKamar(Kamar kamars[], int count, int choice, int ascending);
 
 int sequentialSearchKamar(Kamar kamars[], int count, int key);
 int jumpSearchKamar(Kamar kamars[], int count, int key);
+void helperSortKamar(Kamar arr[], int n);
 
 #endif

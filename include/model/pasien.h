@@ -10,6 +10,8 @@ typedef struct
   int idKamar;
 } Pasien;
 
+int min(int a, int b);
+
 void pasienMenu();
 void createPasien();
 void displayPasiens();
@@ -25,5 +27,6 @@ void insertionSortPasien(Pasien arr[], int n, int choice, int ascending);
 
 int sequentialSearchPasien(Pasien pasiens[], int count, int key);
 int jumpSearchPasien(Pasien pasiens[], int count, int key);
+void helperSortPasien(Pasien arr[], int n);
 
 #endif
