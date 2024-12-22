@@ -16,8 +16,10 @@ int isDuplicateKamarId(int id)
   }
 
   Kamar kamar;
+  // Membaca file baris per baris
   while (fscanf(file, "%d,%d,%d,%d\n", &kamar.idKamar, &kamar.tipeKamar, &kamar.countPasien, &kamar.maxPasien) != EOF)
   {
+    // Jika id kamar sudah ada, return 1
     if (kamar.idKamar == id)
     {
       fclose(file);

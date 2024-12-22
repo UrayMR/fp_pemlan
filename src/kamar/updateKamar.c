@@ -20,6 +20,7 @@ void updateKamar()
   int id;
   int found = 0;
 
+  // Membaca data kamar dari file
   while (fscanf(file, "%d,%d,%d,%d\n", &kamars[count].idKamar, &kamars[count].tipeKamar, &kamars[count].countPasien, &kamars[count].maxPasien) != EOF)
   {
     count++;
@@ -30,10 +31,12 @@ void updateKamar()
   printf("Masukkan ID Kamar yang ingin diupdate: ");
   scanf("%d", &id);
 
+  // Mencari kamar yang ingin diupdate
   for (int i = 0; i < count; i++)
   {
     if (kamars[i].idKamar == id)
     {
+      // Jika kamar memiliki pasien, tidak boleh diupdate
       if (kamars[i].countPasien > 0)
       {
         printf("Kamar dengan ID %d masih memiliki pasien. Tidak boleh diupdate.\n", id);

@@ -17,11 +17,13 @@ void createPasien()
     return;
   }
 
+  // Inisiasi struktur data Pasien dan Kamar karena saling berhubungan
   Pasien pasien;
   Kamar kamars[MAX_KAMAR];
   int kamarCount = 0;
   int targetIndex = -1;
 
+  // Menampilkan kamar data dulu sebelum menambahkan pasien
   displayKamars();
 
   printf("Masukkan ID Kamar: ");
@@ -29,7 +31,6 @@ void createPasien()
   while (getchar() != '\n')
     ; // Clear input buffer
 
-  // Read all kamar data
   FILE *kamarFile = fopen(KAMAR_FILE_NAME, "r");
   if (!kamarFile)
   {
@@ -38,13 +39,14 @@ void createPasien()
     return;
   }
 
+  // Read all kamar data
   while (fscanf(kamarFile, "%d,%d,%d,%d\n",
                 &kamars[kamarCount].idKamar,
                 &kamars[kamarCount].tipeKamar,
                 &kamars[kamarCount].countPasien,
                 &kamars[kamarCount].maxPasien) != EOF)
   {
-
+    // Jika idKamar yang diinputkan ditemukan, maka simpan indexnya
     if (kamars[kamarCount].idKamar == pasien.idKamar)
     {
       targetIndex = kamarCount;
@@ -53,7 +55,7 @@ void createPasien()
   }
   fclose(kamarFile);
 
-  // Validate kamar
+  // Jika idKamar tidak ditemukan, maka keluar dari fungsi
   if (targetIndex == -1)
   {
     printf("ID Kamar tidak ditemukan!\n");
@@ -61,6 +63,7 @@ void createPasien()
     return;
   }
 
+  // Jika kamar sudah penuh, maka keluar dari fungsi
   if (kamars[targetIndex].countPasien >= kamars[targetIndex].maxPasien)
   {
     printf("Kamar sudah penuh!\n");
@@ -73,6 +76,7 @@ void createPasien()
   while (getchar() != '\n')
     ; // Clear input buffer
 
+  // Cek apakah ID Pasien sudah ada
   if (isDuplicatePasienId(pasien.idPasien))
   {
     printf("ID Pasien sudah ada!\n");
@@ -93,7 +97,7 @@ void createPasien()
   while (getchar() != '\n')
     ; // Clear input buffer
 
-  // Save pasien
+  // Menyimpan data pasien ke file
   fprintf(file, "%d,%s,%d,%s,%d\n",
           pasien.idPasien,
           pasien.namaPasien,
@@ -102,7 +106,7 @@ void createPasien()
           pasien.idKamar);
   fclose(file);
 
-  // Update kamar count
+  // Update kamar count dengan index yang sudah disimpan
   kamars[targetIndex].countPasien++;
 
   // Rewrite kamar file

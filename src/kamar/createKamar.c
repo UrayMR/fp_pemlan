@@ -19,7 +19,7 @@ void createKamar()
   printf("Masukkan ID Kamar: ");
   scanf("%d", &kamar.idKamar);
 
-  // Check for duplicate ID using utility function
+  // Melakukan cek duplikat ID Kamar
   if (isDuplicateKamarId(kamar.idKamar))
   {
     printf("ID Kamar sudah ada!\n");

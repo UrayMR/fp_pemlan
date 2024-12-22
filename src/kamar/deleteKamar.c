@@ -15,11 +15,13 @@ void deleteKamar()
     return;
   }
 
+  // Inisiasi array kamars dengan MAX_KAMAR
   Kamar kamars[MAX_KAMAR];
   int count = 0;
   int id;
   int found = 0;
 
+  // Membaca file kamars.csv dan menyimpannya ke array kamars
   while (fscanf(file, "%d,%d,%d,%d\n", &kamars[count].idKamar, &kamars[count].tipeKamar, &kamars[count].countPasien, &kamars[count].maxPasien) != EOF)
   {
     count++;
@@ -29,6 +31,7 @@ void deleteKamar()
   printf("Masukkan ID Kamar yang ingin dihapus: ");
   scanf("%d", &id);
 
+  // Mengecek apakah kamar yang ingin dihapus memiliki pasien
   for (int i = 0; i < count; i++)
   {
     if (kamars[i].idKamar == id && kamars[i].countPasien > 0)
@@ -38,6 +41,7 @@ void deleteKamar()
     }
   }
 
+  // Menghapus kamar dengan ID yang diinput
   file = fopen(FILE_NAME, "w");
   for (int i = 0; i < count; i++)
   {

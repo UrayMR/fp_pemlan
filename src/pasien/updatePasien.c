@@ -15,13 +15,17 @@ void updatePasien()
     return;
   }
 
+  // Inisiasi variabel pasiens dan count
   Pasien *pasiens = NULL;
   int count = 0;
   int id, found = 0;
 
   while (1)
   {
+    // Realokasi memori untuk pasien
     pasiens = realloc(pasiens, (count + 1) * sizeof(Pasien));
+
+    // Membaca data pasien dari file
     if (fscanf(file, "%d,%49[^\n,],%d,%[^\n,],%d\n",
                &pasiens[count].idPasien,
                pasiens[count].namaPasien,
@@ -38,6 +42,7 @@ void updatePasien()
 
   for (int i = 0; i < count; i++)
   {
+    // Jika ID pasien ditemukan
     if (pasiens[i].idPasien == id)
     {
       printf("Masukkan Nama Baru: ");
@@ -53,6 +58,7 @@ void updatePasien()
         printf("Masukkan ID Kamar Baru: ");
         scanf("%d", &newKamarId);
 
+        // Memanggil file kamar, karena pasien dan kamar saling bersinambungan
         FILE *kamarFile = fopen("kamars.csv", "r");
         if (!kamarFile)
         {
@@ -63,11 +69,15 @@ void updatePasien()
 
         Kamar kamar;
         int kamarFound = 0;
+
+        // Membaca data kamar dari file
         while (fscanf(kamarFile, "%d,%d,%d,%d\n", &kamar.idKamar, &kamar.tipeKamar, &kamar.countPasien, &kamar.maxPasien) != EOF)
         {
           if (kamar.idKamar == newKamarId)
           {
             kamarFound = 1;
+
+            // Jika jumlah pasien di kamar kurang dari maksimal pasien maka pasien bisa dipindahkan
             if (kamar.countPasien < kamar.maxPasien)
             {
               pasiens[i].idKamar = newKamarId;
@@ -82,6 +92,7 @@ void updatePasien()
         }
         fclose(kamarFile);
 
+        // Jika kamar tidak ditemukan maka pasien tidak bisa dipindahkan
         if (kamarFound && pasiens[i].idKamar == newKamarId)
         {
           break;
@@ -104,6 +115,7 @@ void updatePasien()
     return;
   }
 
+  // Menulis data pasien baru ke file
   file = fopen(FILE_NAME, "w");
   for (int i = 0; i < count; i++)
   {

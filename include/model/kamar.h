@@ -1,14 +1,16 @@
 #ifndef KAMAR_H
 #define KAMAR_H
 
+// Inisiasi struktur data Kamar
 typedef struct
 {
   int idKamar;
-  int tipeKamar;   // 0 untuk belum dapat kamar, 1 untuk kamar biasa, 2 untuk kamar VIP
+  int tipeKamar;   // 1 untuk kamar biasa, 2 untuk kamar VIP
   int countPasien; // Banyaknya pasien
   int maxPasien;   // Maksimal pasien
 } Kamar;
 
+// Deklarasi fungsi-fungsi yang akan digunakan agar bisa dipanggil di file lain
 int min(int a, int b);
 
 void kamarMenu();
