@@ -17,11 +17,13 @@ int isDuplicatePasienId(int id)
 
   Pasien pasien;
   // Membaca file baris per baris
-  while (fscanf(file, "%d,%s,%d,%s,%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, pasien.penyakit, &pasien.idKamar) != EOF)
+  while (fscanf(file, "%d,%49[^\n,],%d,%99[^\n,],%d\n", &pasien.idPasien, pasien.namaPasien, &pasien.umur, pasien.penyakit, &pasien.idKamar) != EOF)
   {
     // Jika id pasien sudah ada, return 1
     if (pasien.idPasien == id)
     {
+      printf("id ditemukan\n");
+
       fclose(file);
       return 1;
     }
