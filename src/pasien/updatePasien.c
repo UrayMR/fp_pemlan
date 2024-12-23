@@ -5,6 +5,8 @@
 #include "model/kamar.h"
 
 #define FILE_NAME "pasien.csv"
+#define KAMAR_FILE_NAME "kamars.csv"
+#define MAX_KAMAR 100
 
 void updatePasien()
 {
@@ -19,6 +21,8 @@ void updatePasien()
   Pasien *pasiens = NULL;
   int count = 0;
   int id, found = 0;
+  int oldKamarId = -1;
+  int newKamarId = -1;
 
   while (1)
   {
@@ -45,6 +49,7 @@ void updatePasien()
     // Jika ID pasien ditemukan
     if (pasiens[i].idPasien == id)
     {
+      oldKamarId = pasiens[i].idKamar;
       printf("Masukkan Nama Baru: ");
       scanf(" %49[^\n]", pasiens[i].namaPasien);
       printf("Masukkan Usia Baru: ");
@@ -52,7 +57,6 @@ void updatePasien()
       printf("Masukkan Penyakit Baru: ");
       scanf(" %99[^\n]", pasiens[i].penyakit);
 
-      int newKamarId;
       while (1)
       {
         printf("Masukkan ID Kamar Baru: ");
@@ -70,23 +74,30 @@ void updatePasien()
         Kamar kamar;
         int kamarFound = 0;
 
-        // Membaca data kamar dari file
-        while (fscanf(kamarFile, "%d,%d,%d,%d\n", &kamar.idKamar, &kamar.tipeKamar, &kamar.countPasien, &kamar.maxPasien) != EOF)
+        // Jika newKamarId sama dengan oldKamarId, tidak perlu cek kapasitas
+        if (newKamarId == oldKamarId)
         {
-          if (kamar.idKamar == newKamarId)
+          kamarFound = 1;
+          pasiens[i].idKamar = newKamarId;
+        }
+        else
+        {
+          // Membaca data kamar dari file
+          while (fscanf(kamarFile, "%d,%d,%d,%d\n", &kamar.idKamar, &kamar.tipeKamar, &kamar.countPasien, &kamar.maxPasien) != EOF)
           {
-            kamarFound = 1;
-
-            // Jika jumlah pasien di kamar kurang dari maksimal pasien maka pasien bisa dipindahkan
-            if (kamar.countPasien < kamar.maxPasien)
+            if (kamar.idKamar == newKamarId)
             {
-              pasiens[i].idKamar = newKamarId;
-              fclose(kamarFile);
+              if (kamar.countPasien >= kamar.maxPasien)
+              {
+                printf("Kamar dengan ID %d sudah penuh. Silakan masukkan ID kamar lain.\n", newKamarId);
+                kamarFound = 0;
+              }
+              else
+              {
+                kamarFound = 1;
+                pasiens[i].idKamar = newKamarId;
+              }
               break;
-            }
-            else
-            {
-              printf("Kamar dengan ID %d sudah penuh. Silakan masukkan ID kamar lain.\n", newKamarId);
             }
           }
         }
@@ -102,7 +113,6 @@ void updatePasien()
           printf("ID Kamar tidak ditemukan. Silakan masukkan ID kamar lain.\n");
         }
       }
-
       found = 1;
       break;
     }
@@ -127,6 +137,45 @@ void updatePasien()
             pasiens[i].idKamar);
   }
   fclose(file);
+
+  // Update kamar countPasien
+  FILE *kamarFile = fopen(KAMAR_FILE_NAME, "r+");
+  if (!kamarFile)
+  {
+    printf("Gagal membuka file kamar!\n");
+    free(pasiens);
+    return;
+  }
+
+  Kamar kamars[MAX_KAMAR];
+  int kamarCount = 0;
+
+  // Membaca data kamar dari file
+  while (fscanf(kamarFile, "%d,%d,%d,%d\n", &kamars[kamarCount].idKamar, &kamars[kamarCount].tipeKamar, &kamars[kamarCount].countPasien, &kamars[kamarCount].maxPasien) != EOF)
+  {
+    kamarCount++;
+  }
+
+  // Update countPasien
+  for (int i = 0; i < kamarCount; i++)
+  {
+    if (kamars[i].idKamar == oldKamarId)
+    {
+      kamars[i].countPasien--;
+    }
+    if (kamars[i].idKamar == newKamarId)
+    {
+      kamars[i].countPasien++;
+    }
+  }
+
+  // Menulis data kamar baru ke file
+  freopen(KAMAR_FILE_NAME, "w", kamarFile);
+  for (int i = 0; i < kamarCount; i++)
+  {
+    fprintf(kamarFile, "%d,%d,%d,%d\n", kamars[i].idKamar, kamars[i].tipeKamar, kamars[i].countPasien, kamars[i].maxPasien);
+  }
+  fclose(kamarFile);
 
   printf("Pasien %d berhasil diupdate!\n", id);
   free(pasiens);
